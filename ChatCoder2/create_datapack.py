@@ -29,7 +29,11 @@ for key, val in args.__dict__.items(): print("%20s: %s" % (key, val))
 print()
 
 print("parsing logs…")
-logs = ET.parse("ChatCoder2/raw_dataset/AllChatLogs.xml")
+
+
+with open("ChatCoder2/raw_dataset/AllChatLogs.xml", "r") as file:
+	file.readline() # ignore first empty line
+	logs = ET.parse(file)
 logsRoot = logs.getroot()
 
 print("parsing labels…")
@@ -161,7 +165,7 @@ for message in logsRoot:
 			"authorOnRightSide": None, # appears on the right side in visualizations
 			# "predictedClassName": "negative",
 			"isLabelled": False,
-			"numOfMessages": 0,
+			"numOfNonemptyMessages": 0,
 			"numOfPredatorMessages": 0,
 			"numOfNonPredatorMessages": 0,
 
@@ -183,7 +187,7 @@ for message in logsRoot:
 
 	if isFromPredator: chat["numOfPredatorMessages"] += 1
 	else: chat["numOfNonPredatorMessages"] += 1
-	chat["numOfMessages"] += 1
+	if body: chat["numOfNonemptyMessages"] += 1
 
 	# victim is on the right
 	if not isFromPredator: chat["authorOnRightSide"] = userID

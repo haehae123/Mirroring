@@ -126,7 +126,7 @@ def processDataset(datasetType, messageDatasetPath, predIDsPath):
 			"authorOnRightSide": None, # appears on the right side in visualizations
 			# "predictedClassName": "negative",
 			"isLabelled": False,
-			"numOfMessages": 0,
+			"numOfNonemptyMessages": 0,
 			"numOfPredatorMessages": 0,
 			"numOfNonPredatorMessages": 0,
 			"authors": set(),
@@ -177,7 +177,7 @@ def processDataset(datasetType, messageDatasetPath, predIDsPath):
 			# update message counts
 			if isFromPredator: chat["numOfPredatorMessages"] += 1
 			else: chat["numOfNonPredatorMessages"] += 1
-			chat["numOfMessages"] += 1
+			if body: chat["numOfNonemptyMessages"] += 1
 
 			# set author on right side
 			if chat["authorOnRightSide"] is None and not isFromPredator:
