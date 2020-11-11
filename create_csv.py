@@ -35,10 +35,14 @@ print()
 
 def isGood(segment): # which segments should be filtered
 	if args.dataset == "PANC":
-		# filter empty segments and those with more than 150 messages
-		# the latter are a few unbehaved PAN12 segments and long CC2 segments
-		return 1 <= len([msg for msg in segment if msg is not None]) <= 150
-	if args.dataset == "VTPAN": return True # allow all segments
+		# Filters segments with more than 150 nonempty messages.
+		# The few unbehaved PAN12 segments with >150 messages are already
+		# filtered in PANC/create_datapack.py, the negative segments with non
+		# nonempty messages are as well. This code is only for the segments from
+		# the complete positive chats originally from CC2.
+		numOfNonemptyMessages = len([msg for msg in segment if msg is not None])
+		return 1 <= numOfNonemptyMessages <= 150
+	if args.dataset == "VTPAN": return True # don't filter these
 	return True # for other datasets also allow all segments
 
 def writeCSV(file, datapack, datasetType):
