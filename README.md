@@ -12,10 +12,11 @@ Datasets can be saved as both
 
 ## Requirements
 
-- A good amount of RAM
-- 4GB of disk space
+- 8GB of RAM and 4GB of disk space
 - The [PAN12](https://pan.webis.de/clef12/pan12-web/) [1] dataset (can be obtained from [Zenodo](https://zenodo.org/record/3713280))
-- If you also want to create the PANC dataset you need the [ChatCoder2](https://www.chatcoder.com/drupal/index.php) [2] Dataset, which is available [by request to April Edwards](https://www.chatcoder.com/drupal/DataDownload)
+- If you also want to create the PANC dataset you need the [ChatCoder2](https://www.chatcoder.com/drupal/index.php) [2] Dataset, which is available [by request to April Edwards](https://www.chatcoder.com/drupal/DataDownload).
+
+Please unzip the datasets in the respective `raw_dataset/` directory and run `dos2unix *` in the directory. You can then use `sha256sum -c sha256sum.txt` to verify that you are using the same data we were.
 
 ## Usage
 
