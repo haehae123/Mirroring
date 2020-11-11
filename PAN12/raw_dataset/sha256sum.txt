@@ -1,0 +1,4 @@
+342c12b06d148b025ad92d12d57c816ec0abd1743f0d1e9dda552fe6af7c41d2  pan12-sexual-predator-identification-groundtruth-problem1.txt
+ff1d94fb61c8fb13fadb8859ac55471e9a4e19a06f50a7134ec06ed3d3b3f201  pan12-sexual-predator-identification-test-corpus-2012-05-17.xml
+1630a5923460da3f940482a5c8d7ed57f845762154cd56c69238d45e7bbc6ca1  pan12-sexual-predator-identification-training-corpus-2012-05-01.xml
+a8594e6439c885c98c4a6232ce8661690b762ec98850c23918e3d4bce5e366f0  pan12-sexual-predator-identification-training-corpus-predators-2012-05-01.txt
