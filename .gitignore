@@ -5,6 +5,6 @@ todo
 *.sublime*
 *.csv
 datapack*.json
-raw_dataset/*
+*/raw_dataset/*
 *.xml
 pan12*.txt
