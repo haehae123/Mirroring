@@ -64,16 +64,19 @@ for datasetType in ["train", "test"]:
 print("2. filter negative PAN12 segments")
 
 for chatName, chat in list(negativeChats.items()):
-	# the organizers said there would be no segments longer than 150 messages,
-	# but actually there are. We will filter these for segment comparability.
-	hasTooManyMessages = chat["numOfMessages"] > 150
+	# The PAN12 organizers said there would be no segments longer than 150
+	# messages, but actually there are. We will filter these for segment
+	# comparability. We also filter empty segments.
+	hasNoOrTooManyMessages = not (1 <= chat["numOfNonemptyMessages"] <= 150)
 	hasMoreThanTwoUsers = len(chat["authors"]) > 2
-	if hasTooManyMessages or hasMoreThanTwoUsers: del negativeChats[chatName]; continue
+	if hasNoOrTooManyMessages or hasMoreThanTwoUsers:
+		del negativeChats[chatName]; continue
 
 	string = contentToString(chat["content"])
 	isSpam = len(string) > 12970
 	isASingleUserWhoSpams = len(chat["authors"]) == 1 and len(string) > 50
-	if isSpam or isASingleUserWhoSpams: del negativeChats[chatName]; continue
+	if isSpam or isASingleUserWhoSpams:
+		del negativeChats[chatName]; continue
 
 # 3. get complete positive ChatCoder2 chats
 print("3. get complete positive ChatCoder2 chats")
@@ -94,7 +97,7 @@ chats = {**positiveChats, **negativeChats}
 # 4. generate train and test sets
 print("4. generate train and test sets")
 
-random = random.Random(1) # set seed
+random.seed(10) # set seed
 positiveChatNames = sorted(positiveChats.keys())
 negativeChatNames = sorted(negativeChats.keys())
 random.shuffle(positiveChatNames)
@@ -108,7 +111,6 @@ chatNames = {
 	"train": positiveChatNames[:posSplitIndex] + negativeChatNames[:negSplitIndex],
 	"test": positiveChatNames[posSplitIndex:] + negativeChatNames[negSplitIndex:]
 }
-
 
 def generateDatapack(datasetType):
 	datapack = {
@@ -130,12 +132,12 @@ print("5. generate and dump PANC datapack")
 
 for datasetType in ["train", "test"]:
 	datapack = generateDatapack(datasetType)
-	print("len(datapack['chats']) = %s" % len(datapack['chats']))
+	print("%s: len(datapack['chats']) = %s" % (datasetType, len(datapack['chats'])))
 
 	# dump generated datapack to json file
 	outFile = "PANC/datapacks/datapack-%s-%s.json" % (args.datapackID, datasetType)
 	with open(outFile, "w") as file: json.dump(datapack, file, indent=4)
 
-	# also dump an info file for development
-	infoFile = "PANC/datapacks/datapack-info-%s-%s.json" % (args.datapackID, datasetType)
-	with open(infoFile, "w") as file: json.dump(chatNames, file, indent=4)
+# also dump an info file for development
+infoFile = "PANC/datapacks/datapack-info-%s.json" % (args.datapackID)
+with open(infoFile, "w") as file: json.dump(chatNames, file, indent=4)
