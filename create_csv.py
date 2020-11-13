@@ -40,7 +40,7 @@ def writeCSV(file, datapack, datasetType):
 
 	for chatName, chat in datapack["chats"].items():
 		for i, segment in enumerate(getSegments(chat)):
-			if not isGood(segment, args): continue
+			if not isGood(segment, args.dataset): continue
 
 			# add segment number if segment is not whole chat
 			segmentName = "%s-%s" % (chatName, i) \

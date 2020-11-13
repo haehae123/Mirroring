@@ -14,7 +14,7 @@ import json
 from util import contentToString, getSegments
 import csv
 from pathlib import Path
-from util import isGood
+from util import isGood, isNonemptyMsg
 
 parser = argparse.ArgumentParser(description='Create a tsv dataset from a datapack')
 parser.add_argument(
@@ -47,10 +47,10 @@ def getStatistics(datapack, datasetType):
 	for chatName, chat in datapack["chats"].items():
 		chatClassCount.update([chat["className"]])
 		for i, segment in enumerate(getSegments(chat)):
-			if not isGood(segment, args): continue
+			if not isGood(segment, args.dataset): continue
 
 			segmentClassCount.update([chat["className"]])
-			numOfNonemptyMessages = len([msg for msg in segment if msg is not None])
+			numOfNonemptyMessages = len(filter(isNonemptyMsg, segment))
 			segmentLengths[chat["className"]].append(numOfNonemptyMessages)
 
 	print("In %s:" % datasetType)

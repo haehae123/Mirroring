@@ -7,6 +7,7 @@ from itertools import chain
 from collections import Counter
 from Datasets.DynamicArray import DynamicArray
 from datetime import datetime, timezone
+from Datasets.util import isNonemptyMsg
 import json
 import argparse
 
@@ -174,11 +175,6 @@ def processDataset(datasetType, messageDatasetPath, predIDsPath):
 			isFromPredator = author in predatorList
 			if isFromPredator: chat["className"] = "predator"
 
-			# update message counts
-			if isFromPredator: chat["numOfPredatorMessages"] += 1
-			else: chat["numOfNonPredatorMessages"] += 1
-			if body: chat["numOfNonemptyMessages"] += 1
-
 			# set author on right side
 			if chat["authorOnRightSide"] is None and not isFromPredator:
 				chat["authorOnRightSide"] = author
@@ -186,7 +182,7 @@ def processDataset(datasetType, messageDatasetPath, predIDsPath):
 			# keep track of number of messages per author
 			# authorMessageNo.update([author])
 
-			chat["content"][lineNum-1] = {
+			msg = {
 				"type": "message",
 				"author": author,
 				"body": body,
@@ -201,6 +197,13 @@ def processDataset(datasetType, messageDatasetPath, predIDsPath):
 				"type": "message",
 				"lineNum": lineNum,
 			}
+
+			# update message counts
+			if isFromPredator: chat["numOfPredatorMessages"] += 1
+			else: chat["numOfNonPredatorMessages"] += 1
+			if isNonemptyMsg(msg): chat["numOfNonemptyMessages"] += 1
+
+			chat["content"][lineNum-1] = msg
 
 		if chat["className"] == "predator": predatorChats += 1
 

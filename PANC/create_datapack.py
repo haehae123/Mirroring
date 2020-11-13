@@ -13,6 +13,7 @@ from datetime import datetime, timezone
 import json
 from tqdm import tqdm
 import random
+from Datasets.util import PANC_MIN_MSG_NUM, PANC_MAX_MSG_NUM
 
 parser = argparse.ArgumentParser(description='Evaluate a model')
 parser.add_argument(
@@ -67,9 +68,10 @@ for chatName, chat in list(negativeChats.items()):
 	# The PAN12 organizers said there would be no segments longer than 150
 	# messages, but actually there are. We will filter these for segment
 	# comparability. We also filter empty segments.
-	hasNoOrTooManyMessages = not (1 <= chat["numOfNonemptyMessages"] <= 150)
+	hasBadNumOfMessages = \
+		not (PANC_MIN_MSG_NUM <= chat["numOfNonemptyMessages"] <= PANC_MAX_MSG_NUM)
 	hasMoreThanTwoUsers = len(chat["authors"]) > 2
-	if hasNoOrTooManyMessages or hasMoreThanTwoUsers:
+	if hasBadNumOfMessages or hasMoreThanTwoUsers:
 		del negativeChats[chatName]; continue
 
 	string = contentToString(chat["content"])
