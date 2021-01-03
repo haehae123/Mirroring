@@ -50,7 +50,7 @@ def getStatistics(datapack, datasetType):
 			if not isGood(segment, args.dataset): continue
 
 			segmentClassCount.update([chat["className"]])
-			numOfNonemptyMessages = len(filter(isNonemptyMsg, segment))
+			numOfNonemptyMessages = sum([isNonemptyMsg(msg) for msg in segment])
 			segmentLengths[chat["className"]].append(numOfNonemptyMessages)
 
 	print("In %s:" % datasetType)
@@ -79,3 +79,8 @@ outPath = "%s/statistics/" % args.dataset
 Path(outPath).mkdir(parents = True, exist_ok = True)
 with open(outPath + "segment-lengths-%s.json" % args.datapackID, "w") as file:
 	json.dump(segmentLengths, file)
+
+allSegmentLengths = segmentLengths["predator"] + segmentLengths["non-predator"]
+medianSegmentLength = np.median(allSegmentLengths)
+print("overall medianSegmentLength = %s" % medianSegmentLength)
+

@@ -237,7 +237,7 @@ def processDataset(datasetType, messageDatasetPath, predIDsPath):
 
 	print("dumping datapack…")
 	with open("PAN12/datapacks/datapack-%s.json" % (datapack["datapackID"]), "w") as file:
-		json.dump(datapack, file, indent=4, default=datapackConverter)
+		json.dump(datapack, file, default=datapackConverter)
 	print("dumped chats.")
 
 ################################################################################

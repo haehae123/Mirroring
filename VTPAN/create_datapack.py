@@ -87,4 +87,4 @@ for datasetType in ["train", "test"]:
 		outputFile = os.path.join(currentDir, "datapacks/datapack-%s-%s.json" %
 			(args.datapackID, datasetType))
 		with open(outputFile, "w") as file:
-			json.dump(datapack, file, indent=4)
+			json.dump(datapack, file)

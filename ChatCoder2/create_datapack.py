@@ -394,6 +394,6 @@ def converter(obj):
 	# this also serializes DynamicArray to list
 
 with open("ChatCoder2/datapacks/datapack-%s.json" % args.datapackID, "w") as file:
-	json.dump(datapack, file, indent=4, default=converter)
+	json.dump(datapack, file, default=converter)
 
 print("dumped chats.")

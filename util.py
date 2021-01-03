@@ -25,15 +25,13 @@ PANC_MAX_MSG_NUM = 150
 # TODO refactor
 def isGood(segment, dataset): # which segments should be filtered
 	if dataset == "PANC":
-		# Filters segments with more than 150 nonempty messages.
-		# The few unbehaved PAN12 segments with >150 messages are already
-		# filtered in PANC/create_datapack.py, the negative segments with non
-		# nonempty messages are as well. This code is only for the segments from
+		# The negative PAN12 segments have already been filtered in
+		# PANC/create_datapack.py. This code is only for the segments from
 		# the complete positive chats originally from CC2.
-		numOfNonemptyMessages = len(filter(isNonemptyMsg, segment))
+		numOfNonemptyMessages = sum([isNonemptyMsg(msg) for msg in segment])
 		return PANC_MIN_MSG_NUM <= numOfNonemptyMessages <= PANC_MAX_MSG_NUM
 	if dataset == "VTPAN": return True # don't filter these
 	return True # for other datasets also allow all segments
 
-def isNonemptyMsg(msg):
-	return msg is not None and bool(msg["body"])
+def isNonemptyMsg(ct):
+	return ct is not None and ct["type"] == "message" and bool(ct["body"])

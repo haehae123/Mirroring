@@ -70,15 +70,13 @@ for chatName, chat in list(negativeChats.items()):
 	# comparability. We also filter empty segments.
 	hasBadNumOfMessages = \
 		not (PANC_MIN_MSG_NUM <= chat["numOfNonemptyMessages"] <= PANC_MAX_MSG_NUM)
-	hasMoreThanTwoUsers = len(chat["authors"]) > 2
-	if hasBadNumOfMessages or hasMoreThanTwoUsers:
+	doesNotHaveTwoAuthors = len(chat["authors"]) != 2
+	if hasBadNumOfMessages or doesNotHaveTwoAuthors:
 		del negativeChats[chatName]; continue
 
-	string = contentToString(chat["content"])
-	isSpam = len(string) > 12970
-	isASingleUserWhoSpams = len(chat["authors"]) == 1 and len(string) > 50
-	if isSpam or isASingleUserWhoSpams:
-		del negativeChats[chatName]; continue
+	# string = contentToString(chat["content"])
+	# if len(string) > 12970: # is spam
+		# del negativeChats[chatName]; continue
 
 # 3. get complete positive ChatCoder2 chats
 print("3. get complete positive ChatCoder2 chats")
@@ -89,9 +87,10 @@ with open(path, "r") as file:
 	CC2Datapack = json.load(file)
 	positiveChats = CC2Datapack["chats"]
 	# These are complete chats. We HAVE to make sure, that the segments in the
-	# complete chats which have >150 messages are NOT used for training or
-	# evaluation! Nevertheless, we include them in the datapack to be able to
-	# evaluate with complete positive chats.
+	# complete chats which have >150 messages or <6 are NOT used for training or
+	# evaluation! We have to make sure that they are filtered in create_csv.py
+	# and in the evaluation scripts. Nevertheless, we include them in the
+	# datapack to be able to evaluate with complete positive chats.
 
 # have all chats
 chats = {**positiveChats, **negativeChats}
@@ -138,7 +137,7 @@ for datasetType in ["train", "test"]:
 
 	# dump generated datapack to json file
 	outFile = "PANC/datapacks/datapack-%s-%s.json" % (args.datapackID, datasetType)
-	with open(outFile, "w") as file: json.dump(datapack, file, indent=4)
+	with open(outFile, "w") as file: json.dump(datapack, file)
 
 # also dump an info file for development
 infoFile = "PANC/datapacks/datapack-info-%s.json" % (args.datapackID)
