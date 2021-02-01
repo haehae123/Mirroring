@@ -1,18 +1,10 @@
 import sys
 sys.path.insert(0, "..") # to be able to import modules from parent directory
-import xml.etree.ElementTree as ET
-import html
-import re
-from itertools import chain
 from collections import Counter
-from Datasets.DynamicArray import DynamicArray
 import argparse
-import os
-from datetime import datetime, timezone
 import numpy as np
 import json
-from util import contentToString, getSegments
-import csv
+from util import getSegments
 from pathlib import Path
 from util import isGood, isNonemptyMsg
 
