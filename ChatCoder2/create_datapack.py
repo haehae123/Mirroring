@@ -40,8 +40,7 @@ print("parsing labels…")
 labels = ET.parse("ChatCoder2/raw_dataset/AllCodingsExport2.xml")
 labelsRoot = labels.getroot()
 
-# example datapacks and documentation can be found at
-# https://github.com/matthias-vogt/chat-visualizer
+# example datapacks and documentation can be found in the chat-visualizer repo
 datapack = {
 	"datapackID": args.datapackID,
 	"description": args.description,
