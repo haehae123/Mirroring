@@ -8,7 +8,7 @@ This repo is for preprocessing and creating the datasets
 
 Datasets can be saved as both
 - .tsv files and
-- datapacks, compatible with [Chat Visualizer](https://github.com/matthias-vogt/chat-visualizer). More information about datapack files can also be found in the [Chat Visualizer](https://github.com/matthias-vogt/chat-visualizer) repo.
+- datapacks, compatible with [Chat Visualizer](TODO). More information about datapack files can also be found in the [Chat Visualizer](TODO) repo.
 
 ## Requirements
 
@@ -30,6 +30,7 @@ You might want to make changes to the code and change chat preprocessing, filter
 
 
 ## References
+
 [1] Inches, G. & Crestani, F. Overview of the International Sexual Predator Identification Competition at PAN-2012. in CLEF (Online Working Notes/Labs/Workshop) 30, (2012).
 
 [2] McGhee, I. et al. Learning to identify Internet sexual predation. Int. J. Electron. Commer. (2011). doi:10.2753/JEC1086-4415150305
