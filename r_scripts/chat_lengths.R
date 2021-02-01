@@ -1,22 +1,13 @@
 # Load the package required to read JSON files.
 library("rjson")
 
-# Give the input file name to the function.
-result <- fromJSON(file = "/home/matthias/sshfs2/Datasets/PANC/statistics/segment-lengths-PANC.json")
-# result <- fromJSON(file = "/home/matthias/sshfs/code/Datasets/VTPAN/statistics/segment-lengths-VTPAN.json")
+BASE_DIR = "~/sshfs/code/Datasets/"
+result <- fromJSON(file = paste(sep="", BASE_DIR, "PANC/statistics/segment-lengths-PANC.json"))
 positive = result[["predator"]]
 negative = result[["non-predator"]]
-positive = positive[positive<=150]
-negative = negative[negative<=150]
-# positive = positive[positive>=6]
-# negative = negative[negative>=6]
 
-ylim=30000
-ylim=100000
-ylim=18000
-ylim=10000
 ylim=2000
-xlim=150
+
 breaks = seq(0,150,1)
 par(mar=c(5, 6, 4, 4) + 0.1)
 
@@ -39,12 +30,11 @@ cols = c(
   scales::alpha('blue',.3),
   scales::alpha('black',.3)
 )
-legend(110, 3000, legend=c(
+legend(110, 1400, legend=c(
   "positive segments",
   "negative segments",
   "all segments"
 ), col=cols, pch = 15, text.width=27, cex=1)
 
-
-dev.copy(pdf, '/home/matthias/sshfs2/Datasets/PANC/statistics/segment_length_distribution.pdf', height=5, width=11)
+dev.copy(pdf, paste(sep="", BASE_DIR, 'PANC/statistics/segment_length_distribution.pdf'), height=5, width=11)
 dev.off()
