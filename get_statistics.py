@@ -41,10 +41,10 @@ globalSegmentLengths = {"predator": [], "non-predator": []}
 globalSegmentLengthsWords = {"predator": [], "non-predator": []}
 globalPredatorChatLengths = []
 globalPredatorChatLengthsWords = []
-globalFirstApproachMessageNum = []
+global20GroomingMessages = []
 
 def getStatistics(datapack, datasetType):
-	global globalPredatorChatLengths, globalSegmentLengths, globalPredatorChatLengthsWords, globalSegmentLengthsWords, globalFirstApproachMessageNum
+	global globalPredatorChatLengths, globalSegmentLengths, globalPredatorChatLengthsWords, globalSegmentLengthsWords, global20GroomingMessages
 	segmentLengths = {"predator": [], "non-predator": []}
 	segmentLengthsWords = {"predator": [], "non-predator": []}
 	predatorChatLengths = []
@@ -72,7 +72,7 @@ def getStatistics(datapack, datasetType):
 				j = 0
 				for i, msg in enumerate(nonemptyMessages):
 					if "G" in msg["labels"]:
-						globalFirstApproachMessageNum.append(i)
+						global20GroomingMessages.append(i)
 						j += 1
 						if j == 20: break
 
@@ -158,5 +158,5 @@ with open(outPath + "segment-lengths-%s.json" % args.datapackID, "w") as file:
 allSegmentLengths = globalSegmentLengths["predator"] + globalSegmentLengths["non-predator"]
 medianSegmentLength = np.median(allSegmentLengths)
 print("overall medianSegmentLength = %s" % medianSegmentLength)
-print("np.median(globalFirstApproachMessageNum) = %s" % np.median(globalFirstApproachMessageNum))
-print("np.mean(globalFirstApproachMessageNum) = %s" % np.mean(globalFirstApproachMessageNum))
+print("np.median(global20GroomingMessages) = %s" % np.median(global20GroomingMessages))
+print("np.mean(global20GroomingMessages) = %s" % np.mean(global20GroomingMessages))
