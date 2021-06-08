@@ -9,7 +9,7 @@ This repo is for preprocessing and creating the datasets
 It is part of [a larger project on early sexual predator detection](https://early-sexual-predator-detection.gitlab.io).
 
 Datasets can be saved as both
-- .tsv files and
+- .csv files and
 - datapacks, compatible with [Chat Visualizer](https://gitlab.com/early-sexual-predator-detection/chat-visualizer). More information about datapack files can also be found in the [Chat Visualizer](https://gitlab.com/early-sexual-predator-detection/chat-visualizer) repo.
 
 ## Requirements
