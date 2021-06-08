@@ -6,17 +6,19 @@ This repo is for preprocessing and creating the datasets
 - VTPAN, and
 - PANC.
 
+It is part of [a larger project on early sexual predator detection](https://early-sexual-predator-detection.gitlab.io).
+
 Datasets can be saved as both
 - .tsv files and
-- datapacks, compatible with [Chat Visualizer](TODO). More information about datapack files can also be found in the [Chat Visualizer](TODO) repo.
+- datapacks, compatible with [Chat Visualizer](https://gitlab.com/early-sexual-predator-detection/chat-visualizer). More information about datapack files can also be found in the [Chat Visualizer](https://gitlab.com/early-sexual-predator-detection/chat-visualizer) repo.
 
 ## Requirements
 
 - 8GB of RAM and 4GB of disk space
 - The [PAN12](https://pan.webis.de/clef12/pan12-web/) [1] dataset (can be obtained from [Zenodo](https://zenodo.org/record/3713280))
-- If you also want to create the PANC dataset you need the [ChatCoder2](https://www.chatcoder.com/drupal/index.php) [2] Dataset, which is available [by request to April Edwards](https://www.chatcoder.com/drupal/DataDownload).
+- If you also want to create the PANC dataset you need the [ChatCoder2](https://www.chatcoder.com/) [2] Dataset, which is available [by request to April Edwards](https://www.chatcoder.com/data.html).
 
-Please unzip the datasets in the respective `raw_dataset/` directory and run `dos2unix *` in the directory. You can then use `sha256sum -c sha256sum.txt` to verify that you are using the same data we were.
+Please unzip the datasets in the respective `raw_dataset/` directory **and** run `dos2unix *` in the directory. You can then use `sha256sum -c sha256sum.txt` to verify that you are using the same data we were.
 
 ## Usage
 
