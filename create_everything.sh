@@ -1,4 +1,4 @@
-echo "this takes about 10 minutes and creates about 5GB of files"
+echo "This takes about 10 minutes and creates about 5GB of files"
 
 # preliminary datasets
 python PAN12/create_datapack.py --datapackID PAN12
