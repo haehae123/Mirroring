@@ -1,15 +1,17 @@
+import os
 import sys
-sys.path.insert(0, "..") # to be able to import modules from parent directory
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+# to be able to import modules from parent directory
 import xml.etree.ElementTree as ET
 import html
 import re
-from itertools import chain
-from collections import Counter
-from Datasets.DynamicArray import DynamicArray
 from datetime import datetime, timezone
-from Datasets.util import isNonemptyMsg
+from util import getUNIXTimestamp
+from DynamicArray import DynamicArray
+from util import isNonemptyMsg
 import json
 import argparse
+from pathlib import Path
 
 verbose = True
 def ndprint(string=""):
@@ -60,7 +62,7 @@ def processDataset(datasetType, messageDatasetPath, predIDsPath):
 	datapack = {
 		"datapackID": args.datapackID + "-" + datasetType,
 		"description": args.description,
-		"generatedAtTime": int(datetime.now().timestamp()*1000), # unix timestamp
+		"generatedAtTime": getUNIXTimestamp(), # unix timestamp
 		"chats": {}
 	}
 	chats = datapack["chats"] # shorthand
@@ -78,8 +80,8 @@ def processDataset(datasetType, messageDatasetPath, predIDsPath):
 	noBodyCount = 0
 	errorMessages = 0
 
-	dprint("parsing chat logs…")
-	dprint("using %s dataset, which is called %s" % (datasetType, messageDatasetPath))
+	dprint("parsing chat logs for %s…" % datapack["datapackID"])
+	dprint("using %s dataset, from the file %s" % (datasetType, messageDatasetPath))
 	dprint("and predIDsPath %s" % predIDsPath)
 
 	logs = ET.parse('PAN12/raw_dataset/%s' % messageDatasetPath)
@@ -236,7 +238,10 @@ def processDataset(datasetType, messageDatasetPath, predIDsPath):
 		# this also serializes DynamicArray to list
 
 	print("dumping datapack…")
-	with open("PAN12/datapacks/datapack-%s.json" % (datapack["datapackID"]), "w") as file:
+
+	outPath = "PAN12/datapacks/"
+	Path(outPath).mkdir(parents=True, exist_ok=True)
+	with open(outPath + "datapack-%s.json" % (datapack["datapackID"]), "w") as file:
 		json.dump(datapack, file, default=datapackConverter)
 	print("dumped chats.")
 

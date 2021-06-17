@@ -1,19 +1,12 @@
-import sys
-sys.path.insert(0, "..") # to be able to import modules from parent directory
-import xml.etree.ElementTree as ET
-import html
-import re
-from itertools import chain
-from collections import Counter
-from Datasets.DynamicArray import DynamicArray
-import argparse
 import os
-from datetime import datetime, timezone
-import numpy as np
+import sys
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+import argparse
 import json
 from util import contentToString, getSegments
 import csv
 from util import isGood
+from pathlib import Path
 
 parser = argparse.ArgumentParser(description='Create a tsv dataset from a datapack')
 parser.add_argument(
@@ -51,8 +44,11 @@ def writeCSV(file, datapack, datasetType):
 for datasetType in ["train", "test"]:
 	datapackPath = "%s/datapacks/datapack-%s-%s.json" % (
 		args.dataset, args.datapackID, datasetType)
-	csvPath = "%s/csv/%s-%s.csv" % (
-		args.dataset, args.datapackID, datasetType)
+
+	outPath = os.path.join("%s/csv/" % args.dataset)
+	Path(outPath).mkdir(parents=True, exist_ok=True)
+	csvPath = os.path.join(outPath, "%s-%s.csv" %
+		(args.datapackID, datasetType))
 	with open(datapackPath, "r") as file:
 		datapack = json.load(file)
 

@@ -1,13 +1,17 @@
+import os
 import sys
-sys.path.insert(0, "..") # to be able to import modules from parent directory
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+# to be able to import modules from parent directory
 import xml.etree.ElementTree as ET
+from util import getUNIXTimestamp
 from datetime import datetime, timezone
-from Datasets.DynamicArray import DynamicArray
+from DynamicArray import DynamicArray
 import re
 import numpy as np
 import regex
 import argparse
 import json
+from pathlib import Path
 
 parser = argparse.ArgumentParser(description='Creates ChatCoder2 datapacks')
 parser.add_argument(
@@ -44,7 +48,7 @@ labelsRoot = labels.getroot()
 datapack = {
 	"datapackID": args.datapackID,
 	"description": args.description,
-	"generatedAtTime": int(datetime.now().timestamp()*1000), # unix timestamp
+	"generatedAtTime": getUNIXTimestamp(), # unix timestamp
 	"chats": {}
 }
 chats = datapack["chats"] # shorthand
@@ -380,7 +384,6 @@ for chatName in chats:
 	totalNoOfSegments += noOfSegments
 
 print("total segments: %s" % totalNoOfSegments)
-print('chat["HAIRYONE4U"]["noOfSegments"] %s' % chats["HAIRYONE4U"]["noOfSegments"])
 print("that's %s on average per chat" % np.round(totalNoOfSegments/len(chats), 2))
 
 # Dump datapack
@@ -392,7 +395,9 @@ def converter(obj):
 	return getattr(obj, '__dict__', str(obj))
 	# this also serializes DynamicArray to list
 
-with open("ChatCoder2/datapacks/datapack-%s.json" % args.datapackID, "w") as file:
+outPath = "ChatCoder2/datapacks/"
+Path(outPath).mkdir(parents=True, exist_ok=True)
+with open(outPath + "datapack-%s.json" % args.datapackID, "w") as file:
 	json.dump(datapack, file, default=converter)
 
 print("dumped chats.")

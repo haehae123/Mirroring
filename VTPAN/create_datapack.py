@@ -1,15 +1,12 @@
+import os
 import sys
-sys.path.insert(0, "..") # to be able to import modules from parent directory
-import xml.etree.ElementTree as ET
-import html
-import re
-from itertools import chain
-from collections import Counter
-from Datasets.DynamicArray import DynamicArray
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+# to be able to import modules from parent directory
 import argparse
 import os
-from datetime import datetime, timezone
 import json
+from util import getUNIXTimestamp
+from pathlib import Path
 
 parser = argparse.ArgumentParser(description='Evaluate a model')
 parser.add_argument(
@@ -66,7 +63,7 @@ def generateDatapack(PAN12datapack, datasetType):
 	# set metadata
 	datapack["datapackID"] = "%s-%s" % (args.datapackID, datasetType)
 	datapack["description"] = args.description
-	datapack["generatedAtTime"] = int(datetime.now().timestamp()*1000) # unix timestamp
+	datapack["generatedAtTime"] = getUNIXTimestamp() # unix timestamp
 
 	# filter chats from datapack that are not in VTPAN
 	for chatName in list(datapack["chats"].keys()):
@@ -76,14 +73,15 @@ def generateDatapack(PAN12datapack, datasetType):
 	return datapack
 
 for datasetType in ["train", "test"]:
-	path = os.path.join(currentDir, "../PAN12/datapacks/datapack-%s-%s.json" %
-		(args.PAN12datapackID, datasetType))
-	with open(path, "r") as file:
+	path = os.path.join(currentDir, "../PAN12/datapacks/")
+	with open(path + "datapack-%s-%s.json" %
+			(args.PAN12datapackID, datasetType), "r") as file:
 		PAN12datapack = json.load(file)
 		datapack = generateDatapack(PAN12datapack, datasetType)
 		print("len(datapack['chats']) = %s" % len(datapack['chats']))
-		print(set(VTPAN_IDs[datasetType])-set(datapack['chats'].keys()))
+		assert len(set(VTPAN_IDs[datasetType])-set(datapack['chats'].keys())) = 0
 		# dump generated datapack to json file
+		Path(currentDir + "/datapacks/").mkdir(parents=True, exist_ok=True)
 		outputFile = os.path.join(currentDir, "datapacks/datapack-%s-%s.json" %
 			(args.datapackID, datasetType))
 		with open(outputFile, "w") as file:

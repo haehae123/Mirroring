@@ -1,19 +1,14 @@
+import os
 import sys
-sys.path.insert(0, "..") # to be able to import modules from parent directory
-import xml.etree.ElementTree as ET
-import html
-import re
-from itertools import chain
-from collections import Counter
-from Datasets.DynamicArray import DynamicArray
-from Datasets.util import contentToString
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+# to be able to import modules from parent directory
 import argparse
 import os
-from datetime import datetime, timezone
+from util import getUNIXTimestamp
 import json
-from tqdm import tqdm
 import random
-from Datasets.util import PANC_MIN_MSG_NUM, PANC_MAX_MSG_NUM
+from util import PANC_MIN_MSG_NUM, PANC_MAX_MSG_NUM
+from pathlib import Path
 
 parser = argparse.ArgumentParser(description='Evaluate a model')
 parser.add_argument(
@@ -53,9 +48,9 @@ print("1. get negative PAN12 segments")
 
 negativeChats = {}
 for datasetType in ["train", "test"]:
-	path = "PAN12/datapacks/datapack-%s-%s.json" % (
-		args.PAN12datapackID, datasetType)
-	with open(path, "r") as file:
+	path = os.path.join(currentDir, "../PAN12/datapacks/")
+	with open(path + "datapack-%s-%s.json" %
+			(args.PAN12datapackID, datasetType), "r") as file:
 		PAN12datapack = json.load(file)
 		for chatName, chat in PAN12datapack["chats"].items():
 			if chat["className"] == "non-predator":
@@ -117,7 +112,7 @@ def generateDatapack(datasetType):
 	datapack = {
 		"datapackID": args.datapackID + "-" + datasetType,
 		"description": args.description,
-		"generatedAtTime": int(datetime.now().timestamp()*1000), # unix timestamp
+		"generatedAtTime": getUNIXTimestamp(),
 		"chats": {}
 	}
 
@@ -136,8 +131,11 @@ for datasetType in ["train", "test"]:
 	print("%s: len(datapack['chats']) = %s" % (datasetType, len(datapack['chats'])))
 
 	# dump generated datapack to json file
-	outFile = "PANC/datapacks/datapack-%s-%s.json" % (args.datapackID, datasetType)
-	with open(outFile, "w") as file: json.dump(datapack, file)
+	path = os.path.join(currentDir, "datapacks/")
+	Path(path).mkdir(parents=True, exist_ok=True)
+	with open(path + "datapack-%s-%s.json" %
+			(args.datapackID, datasetType), "w") as file:
+		json.dump(datapack, file)
 
 # also dump an info file for development
 infoFile = "PANC/datapacks/datapack-info-%s.json" % (args.datapackID)

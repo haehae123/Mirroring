@@ -35,3 +35,8 @@ def isGood(segment, dataset): # which segments should be filtered
 
 def isNonemptyMsg(ct):
 	return ct is not None and ct["type"] == "message" and bool(ct["body"])
+
+from datetime import datetime, timezone
+
+def getUNIXTimestamp():
+	return int(datetime.now().replace(tzinfo=timezone.utc).timestamp()*1000)
