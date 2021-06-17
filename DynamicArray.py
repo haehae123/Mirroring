@@ -55,9 +55,6 @@ class DynamicArray:
 		self.array[index] = value
 		self.maxIndex = max(self.maxIndex, index)
 
-	def __iter__(self):
-		return self.toList().__iter__()
-
 	@property # for JSON serialization
 	def __dict__(self):
 		return self.toList()
