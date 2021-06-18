@@ -12,6 +12,8 @@ Datasets can be saved as both
 - .csv files and
 - datapacks, compatible with [Chat Visualizer](https://gitlab.com/early-sexual-predator-detection/chat-visualizer). More information about datapack files can also be found in the [Chat Visualizer](https://gitlab.com/early-sexual-predator-detection/chat-visualizer) repo.
 
+![This preprocessing code is for research purposes only. Do not use models trained with this data in practice. It contains many biases and models trained on it will not be able to detect real grooming attempts. For more info, read the paper.](./do_not_use_data.svg)
+
 ## Requirements
 
 - 8GB of RAM and 4GB of disk space
