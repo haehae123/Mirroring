@@ -31,8 +31,12 @@ To create a csv file, first create a datapack of the respective dataset and then
 You might want to make changes to the code and change chat preprocessing, filtering etc. In this case you can also add `--datapackID {SomeID}` to the commands to identify different versions of a dataset.
 
 
+Finally, you can get statistics on the generated datasets using `python get_statistics.py --dataset {Dataset} --datapackID {SomeID}`. This was used to create Table&nbsp;2 in&nbsp;[3].
+
 ## References
 
 [1] Inches, G. & Crestani, F. Overview of the International Sexual Predator Identification Competition at PAN-2012. in CLEF (Online Working Notes/Labs/Workshop) 30, (2012).
 
 [2] McGhee, I. et al. Learning to identify Internet sexual predation. Int. J. Electron. Commer. (2011). doi:10.2753/JEC1086-4415150305
+
+[3] …
