@@ -6,7 +6,7 @@ This repo is for preprocessing and creating the datasets
 - VTPAN, and
 - PANC.
 
-It is part of [a larger project on early sexual predator detection](https://early-sexual-predator-detection.gitlab.io).
+It is part of [a larger project on early sexual predator detection](https://early-sexual-predator-detection.gitlab.io) [3].
 
 Datasets can be saved as both
 - .csv files and
@@ -41,4 +41,4 @@ Finally, you can get statistics on the generated datasets using `python get_stat
 
 [2] McGhee, I. et al. Learning to identify Internet sexual predation. Int. J. Electron. Commer. (2011). doi:10.2753/JEC1086-4415150305
 
-[3] …
+[3] Vogt, Matthias, Ulf Leser, and Alan Akbik. "[Early Detection of Sexual Predators in Chats](https://aclanthology.org/2021.acl-long.386/)." Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (Volume 1: Long Papers). 2021.
